@@ -1,4 +1,5 @@
-addEventListenerventListenerst DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1371268662455046144/M0wBYcUhZZdJwABc_6PnWlDrfGHxJrDFB-5FR3poMsk8o4EL86aUGa9mr1FD9HtUrczC';
+
+const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1371268662455046144/M0wBYcUhZZdJwABc_6PnWlDrfGHxJrDFB-5FR3poMsk8o4EL86aUGa9mr1FD9HtUrczC';
 
 let hasClicked = false;
 
@@ -55,21 +56,17 @@ document.querySelectorAll('.answer-btn').forEach(button => {
     const answer = this.classList.contains('yes') ? 'SIM' : 'NÃO';
     await sendToDiscord(answer);
     
-    if (answer === 'SIM') {
-      localStorage.setItem('relationshipStart', new Date().toISOString());
-    }
-    
     document.getElementById('message').classList.add('hidden');
     const finalMessage = document.getElementById('final-message');
     finalMessage.classList.remove('hidden');
     
     if (answer === 'SIM') {
+      localStorage.setItem('relationshipStart', new Date().toISOString());
       const startDate = new Date(localStorage.getItem('relationshipStart'));
       const timeElement = document.createElement('p');
       timeElement.textContent = `Tempo de relacionamento: ${formatTimeDifference(startDate)}`;
       finalMessage.appendChild(timeElement);
       
-      // Atualizar o tempo a cada segundo
       setInterval(() => {
         timeElement.textContent = `Tempo de relacionamento: ${formatTimeDifference(startDate)}`;
       }, 1000);
@@ -77,10 +74,10 @@ document.querySelectorAll('.answer-btn').forEach(button => {
   });
 });
 
-// Verificar se já existe um relacionamento ao carregar a página
 window.addEventListener('load', () => {
   const startDateStr = localStorage.getItem('relationshipStart');
   if (startDateStr) {
+    document.getElementById('loveButton').style.display = 'none';
     document.getElementById('message').classList.add('hidden');
     const finalMessage = document.getElementById('final-message');
     finalMessage.classList.remove('hidden');
@@ -92,6 +89,7 @@ window.addEventListener('load', () => {
     
     setInterval(() => {
       timeElement.textContent = `Tempo de relacionamento: ${formatTimeDifference(startDate)}`;
-    }, 60000);
+    }, 1000);
   }
 });
+
